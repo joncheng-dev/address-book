@@ -4,6 +4,11 @@ function AddressBook() {
   this.currentId = 0;
 }
 
+function Address() {
+  this.type = {};
+  this.entry = {};
+}
+
 AddressBook.prototype.addContact = function (contact) {
   contact.id = this.assignId();
   this.contacts[contact.id] = contact;
@@ -30,12 +35,13 @@ AddressBook.prototype.deleteContact = function (id) {
 };
 
 // Business Logic for Contacts --------
-function Contact(firstName, lastName, phoneNumber, email, homeAddress) {
+function Contact(firstName, lastName, phoneNumber, emailAddress, homeAddress) {
   this.firstName = firstName;
   this.lastName = lastName;
   this.phoneNumber = phoneNumber;
-  this.email = email;
+  this.emailAddress = emailAddress;
   this.homeAddress = homeAddress;
+  // multiple types of addresses
 }
 
 Contact.prototype.fullName = function () {
@@ -68,8 +74,9 @@ function showContact(contactId) {
   $(".first-name").html(contact.firstName);
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
-  $(".email").html(contact.email);
+  $(".email-address").html(contact.emailAddress);
   $(".home-address").html(contact.homeAddress);
+  // multiple types of addresses
 
   let buttons = $("#buttons");
   buttons.empty();
@@ -100,21 +107,24 @@ $(document).ready(function () {
     const inputtedFirstName = $("input#new-first-name").val();
     const inputtedLastName = $("input#new-last-name").val();
     const inputtedPhoneNumber = $("input#new-phone-number").val();
-    const inputtedEmail = $("input#new-email").val();
+    const inputtedEmailAddress = $("input#new-email-address").val();
     const inputtedHomeAddress = $("input#new-home-address").val();
+    // multiple types of addresses
 
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
-    $("input#new-email").val("");
+    $("input#new-email-address").val("");
     $("input#new-home-address").val("");
+    // multiple types of addresses
 
     let newContact = new Contact(
       inputtedFirstName,
       inputtedLastName,
       inputtedPhoneNumber,
-      inputtedEmail,
+      inputtedEmailAddress,
       inputtedHomeAddress
+      // multiple types of addresses
     );
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
