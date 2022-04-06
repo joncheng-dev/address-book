@@ -9,22 +9,13 @@ function Address(type, entry) {
   this.entry = entry;
 }
 
-// Practice making an address with different type.
-const emailEntry = new Address("email", "my@email.com");
-const homeEntry = new Address("home", "111 West Tree Lane");
-
 // This function takes two parameters, and creates a new address.
-function addAddress(addressType, addressEntry) {
-  const newAddress = [];
-  newAddress.push(addressType);
-  newAddress.push(addressEntry);
-  return newAddress;
+function createAddressEntry(addressType, addressEntry) {
+  let address = new Address(addressType, addressEntry);
+  console.log("Address Type: " + address.type);
+  console.log("Address Entry: " + address.entry);
+  return address;
 }
-
-const allAddresses = [];
-allAddresses.push(addAddress("email", "my@email.com"));
-allAddresses.push(addAddress("home", "111 West Tree Lane"));
-console.log(allAddresses);
 
 AddressBook.prototype.addContact = function (contact) {
   contact.id = this.assignId();
