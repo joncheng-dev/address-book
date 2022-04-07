@@ -129,9 +129,6 @@ $(document).ready(function () {
     $("#address-type").val("");
     $("input#new-address").val("");
 
-    let currentAddressType = inputtedAddressType;
-    let currentAddressEntry = inputtedAddressEntry;
-
     let address1 = createAddressEntry(
       inputtedAddressType,
       inputtedAddressEntry
