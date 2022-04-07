@@ -12,8 +12,6 @@ function Address(type, entry) {
 // This function takes two parameters, and creates a new address.
 function createAddressEntry(addressType, addressEntry) {
   let address = new Address(addressType, addressEntry);
-  console.log("Address Type: " + address.type);
-  console.log("Address Entry: " + address.entry);
   return address;
 }
 
@@ -43,13 +41,18 @@ AddressBook.prototype.deleteContact = function (id) {
 };
 
 // Business Logic for Contacts --------
-function Contact(firstName, lastName, phoneNumber, emailAddress, homeAddress) {
+function Contact(
+  firstName,
+  lastName,
+  phoneNumber,
+  anAddressType,
+  anAddressEntry
+) {
   this.firstName = firstName;
   this.lastName = lastName;
   this.phoneNumber = phoneNumber;
-  this.emailAddress = emailAddress;
-  this.homeAddress = homeAddress;
-  // multiple types of addresses
+  this.anAddressType = anAddressType;
+  this.anAddressEntry = anAddressEntry;
 }
 
 Contact.prototype.fullName = function () {
@@ -82,9 +85,9 @@ function showContact(contactId) {
   $(".first-name").html(contact.firstName);
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
-  $(".email-address").html(contact.emailAddress);
-  $(".home-address").html(contact.homeAddress);
-  // multiple types of addresses
+  // Address type & entry
+  $(".address-type").html(contact.anAddressType);
+  $(".address-entry").html(contact.anAddressEntry);
 
   let buttons = $("#buttons");
   buttons.empty();
@@ -115,24 +118,32 @@ $(document).ready(function () {
     const inputtedFirstName = $("input#new-first-name").val();
     const inputtedLastName = $("input#new-last-name").val();
     const inputtedPhoneNumber = $("input#new-phone-number").val();
-    const inputtedEmailAddress = $("input#new-email-address").val();
-    const inputtedHomeAddress = $("input#new-home-address").val();
-    // multiple types of addresses
+    // Address type & entry
+    const inputtedAddressType = $("#address-type").val();
+    const inputtedAddressEntry = $("input#new-address").val();
 
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
-    $("input#new-email-address").val("");
-    $("input#new-home-address").val("");
-    // multiple types of addresses
+    // Address type & entry
+    $("#address-type").val("");
+    $("input#new-address").val("");
+
+    let currentAddressType = inputtedAddressType;
+    let currentAddressEntry = inputtedAddressEntry;
+
+    let address1 = createAddressEntry(
+      inputtedAddressType,
+      inputtedAddressEntry
+    );
 
     let newContact = new Contact(
       inputtedFirstName,
       inputtedLastName,
       inputtedPhoneNumber,
-      inputtedEmailAddress,
-      inputtedHomeAddress
-      // multiple types of addresses
+      // Address type & entry
+      address1.type,
+      address1.entry
     );
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
