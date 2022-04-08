@@ -41,11 +41,11 @@ AddressBook.prototype.deleteContact = function (id) {
 };
 
 // Business Logic for Contacts --------
-function Contact(firstName, lastName, phoneNumber, addresses) {
+function Contact(firstName, lastName, phoneNumber, address) {
   this.firstName = firstName;
   this.lastName = lastName;
   this.phoneNumber = phoneNumber;
-  this.addresses = addresses;
+  this.address = address;
 }
 
 Contact.prototype.fullName = function () {
@@ -79,8 +79,12 @@ function showContact(contactId) {
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
   // Address type & entry
-  $(".address-type").html(contact.addresses.type);
-  $(".address-entry").html(contact.addresses.entry);
+  for (let i = 1; i < 3; i++) {
+    $(".address-type").append("<li>" + contact.address[i].type + "</li>");
+  }
+  for (let i = 1; i < 3; i++) {
+    $(".address-entry").append("<li>" + contact.address[i].entry + "</li>");
+  }
 
   let buttons = $("#buttons");
   buttons.empty();
@@ -112,6 +116,7 @@ function removeContactListeners() {
 $(document).ready(function () {
   attachContactListeners();
   removeContactListeners();
+  // extraAddress();
   $("form#new-contact").submit(function (event) {
     event.preventDefault();
     const inputtedFirstName = $("input#new-first-name").val();
@@ -128,17 +133,21 @@ $(document).ready(function () {
     $("#address-type").val("");
     $("input#new-address").val("");
 
-    let address1 = createAddressEntry(
+    let counter = 0;
+    const addresses = [];
+    addresses[1] = createAddressEntry(
       inputtedAddressType,
       inputtedAddressEntry
     );
+
+    addresses[2] = createAddressEntry("Email Address", "homer@jsimpson.edu");
 
     let newContact = new Contact(
       inputtedFirstName,
       inputtedLastName,
       inputtedPhoneNumber,
       // Address type & entry
-      address1
+      addresses
     );
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
