@@ -41,18 +41,11 @@ AddressBook.prototype.deleteContact = function (id) {
 };
 
 // Business Logic for Contacts --------
-function Contact(
-  firstName,
-  lastName,
-  phoneNumber,
-  anAddressType,
-  anAddressEntry
-) {
+function Contact(firstName, lastName, phoneNumber, addresses) {
   this.firstName = firstName;
   this.lastName = lastName;
   this.phoneNumber = phoneNumber;
-  this.anAddressType = anAddressType;
-  this.anAddressEntry = anAddressEntry;
+  this.addresses = addresses;
 }
 
 Contact.prototype.fullName = function () {
@@ -86,8 +79,8 @@ function showContact(contactId) {
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
   // Address type & entry
-  $(".address-type").html(contact.anAddressType);
-  $(".address-entry").html(contact.anAddressEntry);
+  $(".address-type").html(contact.addresses.type);
+  $(".address-entry").html(contact.addresses.entry);
 
   let buttons = $("#buttons");
   buttons.empty();
@@ -109,6 +102,12 @@ function removeContactListeners() {
     displayContactDetails(addressBook);
   });
 }
+
+// function extraAddress() {
+//   $("#new-contact").on("click", ".btn-secondary", function () {
+//     #new-address.value = '';
+//   });
+// }
 
 $(document).ready(function () {
   attachContactListeners();
@@ -139,8 +138,7 @@ $(document).ready(function () {
       inputtedLastName,
       inputtedPhoneNumber,
       // Address type & entry
-      address1.type,
-      address1.entry
+      address1
     );
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
