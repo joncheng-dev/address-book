@@ -78,11 +78,12 @@ function showContact(contactId) {
   $(".first-name").html(contact.firstName);
   $(".last-name").html(contact.lastName);
   $(".phone-number").html(contact.phoneNumber);
-  // Address type & entry
+  // Clear previous list items, if any from clicking Contact on list.
+  $(".address-type").empty();
+  $(".address-entry").empty();
+  // Displays address types & entries
   for (let i = 1; i < 3; i++) {
     $(".address-type").append("<li>" + contact.address[i].type + "</li>");
-  }
-  for (let i = 1; i < 3; i++) {
     $(".address-entry").append("<li>" + contact.address[i].entry + "</li>");
   }
 
