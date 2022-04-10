@@ -9,8 +9,7 @@ function Address(type, entry) {
   this.entry = entry;
 }
 
-// This function takes two parameters, and creates a new address.
-function createAddressEntry(addressType, addressEntry) {
+function createAddressObject(addressType, addressEntry) {
   let address = new Address(addressType, addressEntry);
   return address;
 }
@@ -81,8 +80,8 @@ function showContact(contactId) {
   // Clear previous list items, if any from clicking Contact on list.
   $(".address-type").empty();
   $(".address-entry").empty();
-  // Displays address types & entries
-  for (let i = 1; i < 3; i++) {
+  // Displays saved address types & entries
+  for (let i = 0; i < contact.address.length; i++) {
     $(".address-type").append("<li>" + contact.address[i].type + "</li>");
     $(".address-entry").append("<li>" + contact.address[i].entry + "</li>");
   }
@@ -108,49 +107,41 @@ function removeContactListeners() {
   });
 }
 
-// function extraAddress() {
-//   $("#new-contact").on("click", ".btn-secondary", function () {
-//     #new-address.value = '';
-//   });
-// }
-
 $(document).ready(function () {
   attachContactListeners();
   removeContactListeners();
-  // extraAddress();
+  let tempAddresses = [];
+  // Takes user input and adds address objects into an array.
+  $("#new-contact").on("click", ".btn-secondary", function () {
+    let inputtedAddressType = $("#new-address-type").val();
+    let inputtedAddressEntry = $("#new-address-entry").val();
+    let newAddressObject = createAddressObject(
+      inputtedAddressType,
+      inputtedAddressEntry
+    );
+    $("#new-address-entry").val("");
+    tempAddresses.push(newAddressObject);
+  });
+
   $("form#new-contact").submit(function (event) {
     event.preventDefault();
     const inputtedFirstName = $("input#new-first-name").val();
     const inputtedLastName = $("input#new-last-name").val();
     const inputtedPhoneNumber = $("input#new-phone-number").val();
-    // Address type & entry
-    const inputtedAddressType = $("#address-type").val();
-    const inputtedAddressEntry = $("input#new-address").val();
 
     $("input#new-first-name").val("");
     $("input#new-last-name").val("");
     $("input#new-phone-number").val("");
-    // Address type & entry
-    $("#address-type").val("");
-    $("input#new-address").val("");
-
-    let counter = 0;
-    const addresses = [];
-    addresses[1] = createAddressEntry(
-      inputtedAddressType,
-      inputtedAddressEntry
-    );
-
-    addresses[2] = createAddressEntry("Email Address", "homer@jsimpson.edu");
 
     let newContact = new Contact(
       inputtedFirstName,
       inputtedLastName,
       inputtedPhoneNumber,
-      // Address type & entry
-      addresses
+      tempAddresses
     );
     addressBook.addContact(newContact);
     displayContactDetails(addressBook);
+    // Clear addresses array for next contact to be added.
+    tempAddresses = [];
   });
 });
